@@ -13,7 +13,6 @@ const Contents = ({ children }: { children: React.ReactNode }) => {
           background: "colorBgContainer",
           borderRadius: "borderRadiusLG",
           color: "black",
-          fontSize: "28px",
         }}
       >
         {children}
