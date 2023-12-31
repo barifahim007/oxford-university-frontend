@@ -1,22 +1,31 @@
 "use client";
-
 import { Layout } from "antd";
+import UMBreadCrumb from "./UMBreadCrumb";
+
+const { Content } = Layout;
 
 const Contents = ({ children }: { children: React.ReactNode }) => {
-  const { Content } = Layout;
+  const base = "admin";
   return (
-    <Content style={{ height: "100vh" }}>
-      <div
-        style={{
-          padding: 30,
-          minHeight: 360,
-          background: "colorBgContainer",
-          borderRadius: "borderRadiusLG",
-          color: "black",
-        }}
-      >
-        {children}
-      </div>
+    <Content
+      style={{
+        minHeight: "100vh",
+        color: "black",
+      }}
+    >
+      <UMBreadCrumb
+        items={[
+          {
+            label: `${base}`,
+            link: `/${base}`,
+          },
+          {
+            label: "student",
+            link: `/${base}/student`,
+          },
+        ]}
+      />
+      {children}
     </Content>
   );
 };
