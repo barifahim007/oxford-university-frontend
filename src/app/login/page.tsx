@@ -1,12 +1,16 @@
 "use client";
-import { Button, Col, Input, Row } from "antd";
+import { Button, Col, Row } from "antd";
 import Image from "next/image";
 import Forms from "../../components/Forms/forms";
 import FormInput from "../../components/Forms/FormsInput";
 import { SubmitHandler } from "react-hook-form";
 import login from "../../assets/Login-bro.svg";
 import { useUserLoginMutation } from "@/redux/api/authApi";
-import { storeUserLoginInfo } from "@/service/auth.service";
+import {
+  getUserFromLocalStorage,
+  setUserInToLocalStorage,
+} from "@/service/auth.service";
+import { useRouter } from "next/navigation";
 
 type FormValues = {
   id: string;
@@ -15,14 +19,18 @@ type FormValues = {
 
 const LoginPage = () => {
   const [userLogin] = useUserLoginMutation();
+  getUserFromLocalStorage();
+  const router = useRouter();
 
   const onSubmit: SubmitHandler<FormValues> = async (data: any) => {
     try {
       const res = await userLogin({ ...data }).unwrap();
 
-      storeUserLoginInfo({ accessToken: res?.data?.accessToken });
+      if (res?.data?.accessToken) {
+        router.push("/profile");
+      }
 
-      console.log(res);
+      setUserInToLocalStorage({ accessToken: res?.data?.accessToken });
     } catch (err) {
       console.error(err);
     }
